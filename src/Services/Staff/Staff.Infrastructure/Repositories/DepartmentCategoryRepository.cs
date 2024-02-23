@@ -1,5 +1,5 @@
 ﻿using Staff.Application.Contracts.Persistance;
-using Staff.Domain.Entities.Staff;
+using Staff.Domain.Entities.Department;
 using Staff.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Staff.Infrastructure.Repositories
 {
-    public class StaffRepository:RepositoryBase<StaffPersonalInfo>,IStaffRepository
+    public class DepartmentCategoryRepository:RepositoryBase<DepartmentCategory>,IDepartmentCategoryRepository
     {
-        public StaffRepository(StaffDbContext dbContext):base(dbContext)
+        public DepartmentCategoryRepository(StaffDbContext dbContext):base(dbContext)
         {
                 
         }

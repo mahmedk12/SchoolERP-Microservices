@@ -7,13 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{53
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Staff", "Staff", "{9221231B-9795-4D54-9968-6E5E096F0DE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staff.API", "Services\Staff\Staff.API\Staff.API.csproj", "{2050AFB8-03D1-4EF9-99C5-62A294632DAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Staff.API", "Services\Staff\Staff.API\Staff.API.csproj", "{2050AFB8-03D1-4EF9-99C5-62A294632DAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staff.Application", "Services\Staff\Staff.Application\Staff.Application.csproj", "{FC4B3CE5-2FBF-4F02-818C-7F0931F2AC9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Staff.Application", "Services\Staff\Staff.Application\Staff.Application.csproj", "{FC4B3CE5-2FBF-4F02-818C-7F0931F2AC9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staff.Domain", "Services\Staff\Staff.Domain\Staff.Domain.csproj", "{1B54070D-B3FD-4B27-A8B5-A8D87753995C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Staff.Domain", "Services\Staff\Staff.Domain\Staff.Domain.csproj", "{1B54070D-B3FD-4B27-A8B5-A8D87753995C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staff.Infrastructure", "Services\Staff\Staff.Infrastructure\Staff.Infrastructure.csproj", "{9C84FFFB-754A-4912-B690-71CE871AB254}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Staff.Infrastructure", "Services\Staff\Staff.Infrastructure\Staff.Infrastructure.csproj", "{9C84FFFB-754A-4912-B690-71CE871AB254}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CE6D6C02-6DFE-4198-AB0F-AC45491F724B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{9C84FFFB-754A-4912-B690-71CE871AB254}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C84FFFB-754A-4912-B690-71CE871AB254}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C84FFFB-754A-4912-B690-71CE871AB254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6D6C02-6DFE-4198-AB0F-AC45491F724B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6D6C02-6DFE-4198-AB0F-AC45491F724B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6D6C02-6DFE-4198-AB0F-AC45491F724B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6D6C02-6DFE-4198-AB0F-AC45491F724B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

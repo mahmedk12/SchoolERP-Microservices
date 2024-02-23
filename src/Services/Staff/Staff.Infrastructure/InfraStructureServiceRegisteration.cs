@@ -20,6 +20,9 @@ namespace Staff.Infrastructure
                 options.UseSqlServer(configuration.GetConnectionString("StaffConnectionString")));
             services.AddScoped(typeof(IAsyncRepository<>), typeof(RepositoryBase<>));
             services.AddScoped<IStaffRepository, StaffRepository>();
+            services.AddScoped<IDegreeLevelRepository,DegreeLevelRepository >();
+            services.AddScoped<IDepartmentCategoryRepository,DepartmentCategoryRepository >();
+            services.AddScoped<IDepartmentInfoRepository,DepartmentInfoRepository >();
             return services;
         }
     }

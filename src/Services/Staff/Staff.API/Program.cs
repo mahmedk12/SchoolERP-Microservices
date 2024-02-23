@@ -26,5 +26,9 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-app.MigrateDatabase<StaffDbContext>();
+app.MigrateDatabase<StaffDbContext>((context, services) =>
+{
+    var logger = services.GetService<ILogger<StaffDbContextSeed>>();
+    StaffDbContextSeed.SeedAsync(context,logger).Wait();
+});
 app.Run();

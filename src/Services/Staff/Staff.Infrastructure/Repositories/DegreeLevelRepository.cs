@@ -1,5 +1,5 @@
 ﻿using Staff.Application.Contracts.Persistance;
-using Staff.Domain.Entities.Staff;
+using Staff.Domain.Entities;
 using Staff.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Staff.Infrastructure.Repositories
 {
-    public class StaffRepository:RepositoryBase<StaffPersonalInfo>,IStaffRepository
+    public class DegreeLevelRepository:RepositoryBase<DegreeLevel>,IDegreeLevelRepository
     {
-        public StaffRepository(StaffDbContext dbContext):base(dbContext)
+        public DegreeLevelRepository(StaffDbContext dbContext):base(dbContext)
         {
                 
         }

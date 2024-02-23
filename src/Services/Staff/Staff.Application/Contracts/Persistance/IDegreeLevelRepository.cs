@@ -1,4 +1,4 @@
-﻿using Staff.Domain.Entities.Staff;
+﻿using Staff.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Staff.Application.Contracts.Persistance
 {
-    public interface IStaffPersonalInfoRepository
+    public interface IDegreeLevelRepository:IAsyncRepository<DegreeLevel>
     {
-        Task<StaffPersonalInfo> MapStaffPersonalInfo();
     }
 }

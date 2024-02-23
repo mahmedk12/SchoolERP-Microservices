@@ -1,10 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Staff.Application.Features.Staff.Commands.CreateStaffPersonalInfo;
+using Staff.Application.Features.Staff.Commands.CreateStaff;
 using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.GetSingleStaff;
-using Staff.Domain.Entities;
+using Staff.Domain.Entities.Staff;
 using System.Net;
 
 namespace Staff.API.Controllers
