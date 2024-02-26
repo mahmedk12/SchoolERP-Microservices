@@ -31,7 +31,7 @@ namespace Staff.API.Controllers
         public async Task<ActionResult<GetStaffDto>> GetStaff(int id)
         {
 
-            var result = await _mediator.Send(new GetSingleStaffQuery() { Id = id });
+            var result = await _mediator.Send(new GetSingleStaffQuery(id));
             return Ok(result);
         }
     }

@@ -28,7 +28,6 @@ namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 
         public async Task<GetStaffDto> Handle(GetSingleStaffQuery request, CancellationToken cancellationToken)
         {
-
             List<Expression<Func<StaffPersonalInfo, object>>> expressions =
                 new List<Expression<Func<StaffPersonalInfo, object>>>();
             expressions.Add(t => (t.EducationDetails as StaffEducationDetail).DegreeLevel);
