@@ -17,7 +17,7 @@
         public string email { get; set; }
         public string passportImage { get; set; }
         public string nicImage { get; set; }
-        public GetStaffEmploymentDetailDto employmentDetial { get; set; }
+        public GetStaffEmploymentDetailDto employmentDetail { get; set; }
         public IEnumerable<GetStaffEducationDetialDto> educationDetails { get; set; }
     }
     public class GetStaffEducationDetialDto
@@ -29,9 +29,6 @@
     public class GetStaffEmploymentDetailDto
     {
         public int Id { get; set; }
-        public int StatusId { get; set; }
-        public int PositionLevelId { get; set; }
-        public int TypeId { get; set; }
         public DateTime? EmployedAt { get; set; }
         public DateTime? LeftAt { get; set; }
         public GetPositionLevelDto PositionLevel { get; set; }
