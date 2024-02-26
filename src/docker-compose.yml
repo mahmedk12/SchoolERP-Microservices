@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  staffdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+  staff.api:
+    image: ${DOCKER_REGISTRY-}staffapi
+    build:
+      context: .
+      dockerfile: Services/Staff/Staff.API/Dockerfile
+
+volumes:
+  sql_data:
