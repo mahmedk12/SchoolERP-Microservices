@@ -11,6 +11,7 @@ using Staff.Application.Features.Staff.Queries.Dtos;
 using Staff.Application.Shared;
 using Staff.Domain.Common;
 using Staff.Domain.Entities;
+using Staff.Domain.Entities.Constant;
 using Staff.Domain.Entities.Department;
 using Staff.Domain.Entities.Staff;
 using System.ComponentModel.DataAnnotations;
