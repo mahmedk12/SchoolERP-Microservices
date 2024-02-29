@@ -1,4 +1,5 @@
 ﻿using Staff.Domain.Common;
+using Staff.Domain.Entities.Staff;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff.Domain.Entities.Staff
+namespace Staff.Domain.Entities.Constant
 {
     [Table("StaffEmploymentType")]
-    public class StaffEmploymentType:EntityBase
+    public class StaffEmploymentType : EntityBase
     {
         [Key]
         public int Id { get; set; }

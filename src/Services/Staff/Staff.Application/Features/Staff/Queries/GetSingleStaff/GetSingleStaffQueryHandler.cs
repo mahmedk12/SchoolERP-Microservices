@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
-using Staff.Application.Contracts.Persistance;
-using Staff.Domain.Entities;
+using Staff.Application.Contracts.Persistance.Staff;
+using Staff.Application.Features.Staff.Queries.Dtos;
 using Staff.Domain.Entities.Junction;
 using Staff.Domain.Entities.Staff;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 {
@@ -31,10 +29,12 @@ namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
             List<Expression<Func<StaffPersonalInfo, object>>> expressions =
                 new List<Expression<Func<StaffPersonalInfo, object>>>();
             expressions.Add(t => (t.EducationDetails as StaffEducationDetail).DegreeLevel);
+            expressions.Add(t => t.EmploymentDetail);
             expressions.Add(t =>t.EmploymentDetail.PositionLevel);
             expressions.Add(t =>t.EmploymentDetail.Type);
             expressions.Add(t =>t.EmploymentDetail.Status);
             expressions.Add(t =>t.EmploymentDetail.DepartmentCategory);
+           // expressions.Add(t => t.EmploymentDetail.DepartmentCategory.DepartmentInfos);
             expressions.Add(t =>(t.EmploymentDetail.DepartmentInfos as EmploymentDetailDepartment).DepartmentInfo);
             // Define the include expressions to eagerly load related entities like products
 

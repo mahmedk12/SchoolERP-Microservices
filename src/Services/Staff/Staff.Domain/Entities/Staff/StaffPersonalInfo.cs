@@ -24,10 +24,9 @@ namespace Staff.Domain.Entities.Staff
         public string Email { get; set; }
         public string PassportImage { get; set; }
         public string NicImage { get; set; }
-        public int EmploymentDetailId { get; set; }
 
-        public StaffEmploymentDetail EmploymentDetail { get; set; }
-        public ICollection<StaffEducationDetail> EducationDetails { get; set; }
+        public StaffEmploymentDetail? EmploymentDetail { get; set; }
+        public ICollection<StaffEducationDetail>? EducationDetails { get; set; }
 
 
     }

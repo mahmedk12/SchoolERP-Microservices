@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff.Application.Contracts.Persistance
+namespace Staff.Application.Contracts.Persistance.Staff
 {
     public interface IStaffPersonalInfoRepository
     {

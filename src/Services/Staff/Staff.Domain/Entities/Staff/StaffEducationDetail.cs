@@ -1,4 +1,5 @@
 ﻿using Staff.Domain.Common;
+using Staff.Domain.Entities.Constant;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
