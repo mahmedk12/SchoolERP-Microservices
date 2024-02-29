@@ -7,12 +7,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff.Application.Contracts.Persistance
+namespace Staff.Application.Contracts.Persistance.Generic
 {
-    public interface IAsyncRepository<T> where T:EntityBase
+    public interface IAsyncRepository<T> where T : EntityBase
     {
         Task<IReadOnlyList<T>> GetAllAsync();
-        Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate=null,
+        Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,
                                         Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                         string includeString = null,
                                         bool disableTracking = true);

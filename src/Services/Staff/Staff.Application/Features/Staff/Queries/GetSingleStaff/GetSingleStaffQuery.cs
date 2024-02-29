@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Staff.Application.Features.Staff.Queries.Dtos;
 
 namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 {

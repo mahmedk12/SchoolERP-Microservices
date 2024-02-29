@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Staff.Domain.Common;
-using Staff.Domain.Entities;
+using Staff.Domain.Entities.Constant;
 using Staff.Domain.Entities.Department;
 using Staff.Domain.Entities.Junction;
 using Staff.Domain.Entities.Staff;
@@ -50,16 +50,50 @@ namespace Staff.Infrastructure.Persistence
         {
 
            
-            modelBuilder.Entity<StaffPersonalInfo>()
-                .HasOne(a => a.EmploymentDetail)
-                .WithOne(b => b.StaffInfo)
-                .HasForeignKey<StaffPersonalInfo>(b => b.EmploymentDetailId)
+            modelBuilder.Entity<StaffEmploymentDetail>()
+                .HasOne(a => a.StaffInfo)
+                .WithOne(b => b.EmploymentDetail)
+                .HasForeignKey<StaffEmploymentDetail>(b => b.StaffId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<StaffEmploymentDetail>()
+               .HasOne(a => a.PositionLevel)
+               .WithMany(b => b.EmploymentDetails)
+               .HasForeignKey(b => b.PositionLevelId)
+               .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<StaffEmploymentDetail>()
+               .HasOne(a => a.Status)
+               .WithMany(b => b.EmploymentDetails)
+               .HasForeignKey(b => b.StatusId)
+               .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<StaffEmploymentDetail>()
+               .HasOne(a => a.Type)
+               .WithMany(b => b.EmploymentDetails)
+               .HasForeignKey(b => b.TypeId)
+               .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<EmploymentDetailDepartment>()
+                .HasKey(a => new { a.DepartmentInfoId, a.EmploymentDetialId });
+
+            modelBuilder.Entity<EmploymentDetailDepartment>()
+                .HasOne(esd => esd.DepartmentInfo)
+                .WithMany(d => d.EmploymentDetails)
+                .HasForeignKey(esd => esd.DepartmentInfoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EmploymentDetailDepartment>()
+                .HasOne(esd => esd.EmploymentDetail)
+                .WithMany(es => es.DepartmentInfos)
+                .HasForeignKey(esd => esd.EmploymentDetialId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StaffEducationDetail>()
              .HasOne(b => b.Staff)
              .WithMany(a => a.EducationDetails)
-             .HasForeignKey(b => b.StaffId);
+             .HasForeignKey(b => b.StaffId)
+             .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StaffEducationDetail>()
              .HasOne(b => b.DegreeLevel)
@@ -77,35 +111,7 @@ namespace Staff.Infrastructure.Persistence
                 .WithMany(b => b.EmploymentDetails)
                 .HasForeignKey(b => b.DepartmentCategoryId);
 
-            modelBuilder.Entity<StaffEmploymentDetail>()
-               .HasOne(a => a.PositionLevel)
-               .WithMany(b => b.EmploymentDetails)
-               .HasForeignKey(b => b.PositionLevelId);
-
-            modelBuilder.Entity<StaffEmploymentDetail>()
-               .HasOne(a => a.Status)
-               .WithMany(b => b.EmploymentDetails)
-               .HasForeignKey(b => b.StatusId);
-
-            modelBuilder.Entity<StaffEmploymentDetail>()
-               .HasOne(a => a.Type)
-               .WithMany(b => b.EmploymentDetails)
-               .HasForeignKey(b => b.TypeId);
-
-            modelBuilder.Entity<EmploymentDetailDepartment>()
-                .HasKey(a => new { a.DepartmentInfoId, a.EmploymentDetialId });
-
-            modelBuilder.Entity<EmploymentDetailDepartment>()
-                .HasOne(esd => esd.DepartmentInfo)
-                .WithMany(d => d.EmploymentDetails)
-                .HasForeignKey(esd => esd.DepartmentInfoId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<EmploymentDetailDepartment>()
-                .HasOne(esd => esd.EmploymentDetail)
-                .WithMany(es => es.DepartmentInfos)
-                .HasForeignKey(esd => esd.EmploymentDetialId)
-                .OnDelete(DeleteBehavior.Restrict);
+            
 
             
 

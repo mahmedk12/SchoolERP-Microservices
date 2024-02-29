@@ -1,4 +1,4 @@
-﻿namespace Staff.Application.Features.Staff.Queries
+﻿namespace Staff.Application.Features.Staff.Queries.Dtos
 {
     public class GetStaffDto
     {
@@ -19,6 +19,7 @@
         public string nicImage { get; set; }
         public GetStaffEmploymentDetailDto employmentDetail { get; set; }
         public IEnumerable<GetStaffEducationDetialDto> educationDetails { get; set; }
+
     }
     public class GetStaffEducationDetialDto
     {
@@ -31,11 +32,11 @@
         public int Id { get; set; }
         public DateTime? EmployedAt { get; set; }
         public DateTime? LeftAt { get; set; }
-        public GetPositionLevelDto PositionLevel { get; set; }
-        public GetStatusDto Status { get; set; }
-        public GetTypeDto Type { get; set; }
-        public GetDepartmentCategoryDto DepartmentCategory { get; set; }
-        public List<GetDepartmentInfoDto> DepartmentInfos { get; set; }
+        public GetPositionLevelDto? PositionLevel { get; set; }
+        public GetStatusDto? Status { get; set; }
+        public GetTypeDto? Type { get; set; }
+        public GetDepartmentCategoryDto? DepartmentCategory { get; set; }
+
     }
     public class GetDegreeLevelDto
     {
@@ -61,6 +62,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public IEnumerable<GetDepartmentInfoDto> DepartmentInfos { get; set; }
     }
     public class GetDepartmentInfoDto
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Staff.Application.Contracts.Persistance;
+using Staff.Application.Contracts.Persistance.Generic;
 using Staff.Domain.Common;
 using Staff.Infrastructure.Persistence;
 using System;
@@ -10,9 +10,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff.Infrastructure.Repositories
+namespace Staff.Infrastructure.Repositories.Generic
 {
-    public class RepositoryBase<T>:IAsyncRepository<T> where T : EntityBase
+    public class RepositoryBase<T> : IAsyncRepository<T> where T : EntityBase
     {
         protected readonly StaffDbContext _dbContext;
 
@@ -44,7 +44,7 @@ namespace Staff.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null, 
+        public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             List<Expression<Func<T, object>>> includes = null,
             bool disableTracking = true)
@@ -52,7 +52,7 @@ namespace Staff.Infrastructure.Repositories
             IQueryable<T> query = _dbContext.Set<T>();
             if (disableTracking) query = query.AsNoTracking();
 
-            if(includes != null) query = includes.Aggregate(query, (current, include) => current.Include(include));
+            if (includes != null) query = includes.Aggregate(query, (current, include) => current.Include(include));
 
             if (predicate != null) query = query.Where(predicate);
 
