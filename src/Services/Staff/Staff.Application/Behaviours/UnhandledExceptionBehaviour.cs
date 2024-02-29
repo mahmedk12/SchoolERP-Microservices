@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Staff.Application.Reponse;
+using Staff.Application.Exceptions;
+using Staff.Application.Shared;
+using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,10 @@ using CustomValidationException = Staff.Application.Exceptions.CustomValidationE
 
 namespace Staff.Application.Behaviours
 {
-    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest,TResponse>
-            where TRequest : MediatR.IRequest<ApiResponse<object>>
-            
-             // <- this is the part you're missing
-         
+    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+            where TRequest : MediatR.IRequest<TResponse>
+            where TResponse : ApiResponse<object>, new()
+
     {
         private readonly ILogger<TRequest> _logger;
 
@@ -31,20 +32,21 @@ namespace Staff.Application.Behaviours
             }
             catch (CustomValidationException ex)
             {
-                var requestName = typeof(TRequest).Name;
-                _logger.LogError(ex, "Validation Exception for Request {Name}", requestName);
-
-                // Construct ApiResponse for validation exception
-                var response = new ApiResponse<object>
+                return new TResponse()
                 {
                     StatusCode = 400,
-                    Url = "", // You can set the URL or leave it empty
                     ValidationErrors = ex.Errors,
                     Data = null
                 };
-
-                // Return the ApiResponse
-                return (TResponse)(object)response;
+            }
+            catch (CustomNotFoundException n_ex)
+            {
+                return new TResponse()
+                {
+                    StatusCode = 400,
+                    Message = n_ex.Message,
+                    Data = null
+                };
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using MediatR;
-using Staff.Application.Features.Staff.Queries.Dtos;
-using Staff.Application.Reponse;
+using Staff.Application.Features.Staff.Queries;
+using Staff.Application.Shared;
+using Staff.Domain.Common;
 
 namespace Staff.Application.Features.Staff.Commands.CreateStaff
 {

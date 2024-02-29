@@ -12,7 +12,7 @@ using Staff.Infrastructure.Persistence;
 namespace Staff.Infrastructure.Migrations
 {
     [DbContext(typeof(StaffDbContext))]
-    [Migration("20240226113805_initial")]
+    [Migration("20240229140007_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Staff.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Staff.Domain.Entities.DegreeLevel", b =>
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.DegreeLevel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,6 +46,75 @@ namespace Staff.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DegreeLevel");
+                });
+
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.StaffEmploymentStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffEmploymentStatus");
+                });
+
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.StaffEmploymentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffEmploymentType");
+                });
+
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.StaffPositionLevel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffPositionLevel");
                 });
 
             modelBuilder.Entity("Staff.Domain.Entities.Department.DepartmentCategory", b =>
@@ -210,52 +279,6 @@ namespace Staff.Infrastructure.Migrations
                     b.ToTable("StaffEmploymentDetail");
                 });
 
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEmploymentStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StaffEmploymentStatus");
-                });
-
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEmploymentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StaffEmploymentType");
-                });
-
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPersonalInfo", b =>
                 {
                     b.Property<int>("Id")
@@ -334,29 +357,6 @@ namespace Staff.Infrastructure.Migrations
                     b.ToTable("StaffInfos");
                 });
 
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPositionLevel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Level")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StaffPositionLevel");
-                });
-
             modelBuilder.Entity("Staff.Domain.Entities.Department.DepartmentInfo", b =>
                 {
                     b.HasOne("Staff.Domain.Entities.Department.DepartmentCategory", "DepartmentCategory")
@@ -389,7 +389,7 @@ namespace Staff.Infrastructure.Migrations
 
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEducationDetail", b =>
                 {
-                    b.HasOne("Staff.Domain.Entities.DegreeLevel", "DegreeLevel")
+                    b.HasOne("Staff.Domain.Entities.Constant.DegreeLevel", "DegreeLevel")
                         .WithMany("EducationDetials")
                         .HasForeignKey("DegreeLevelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -414,7 +414,7 @@ namespace Staff.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Staff.Domain.Entities.Staff.StaffPositionLevel", "PositionLevel")
+                    b.HasOne("Staff.Domain.Entities.Constant.StaffPositionLevel", "PositionLevel")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("PositionLevelId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -425,12 +425,12 @@ namespace Staff.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Staff.Domain.Entities.Staff.StaffEmploymentStatus", "Status")
+                    b.HasOne("Staff.Domain.Entities.Constant.StaffEmploymentStatus", "Status")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Staff.Domain.Entities.Staff.StaffEmploymentType", "Type")
+                    b.HasOne("Staff.Domain.Entities.Constant.StaffEmploymentType", "Type")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -446,9 +446,24 @@ namespace Staff.Infrastructure.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Staff.Domain.Entities.DegreeLevel", b =>
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.DegreeLevel", b =>
                 {
                     b.Navigation("EducationDetials");
+                });
+
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.StaffEmploymentStatus", b =>
+                {
+                    b.Navigation("EmploymentDetails");
+                });
+
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.StaffEmploymentType", b =>
+                {
+                    b.Navigation("EmploymentDetails");
+                });
+
+            modelBuilder.Entity("Staff.Domain.Entities.Constant.StaffPositionLevel", b =>
+                {
+                    b.Navigation("EmploymentDetails");
                 });
 
             modelBuilder.Entity("Staff.Domain.Entities.Department.DepartmentCategory", b =>
@@ -468,27 +483,11 @@ namespace Staff.Infrastructure.Migrations
                     b.Navigation("DepartmentInfos");
                 });
 
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEmploymentStatus", b =>
-                {
-                    b.Navigation("EmploymentDetails");
-                });
-
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEmploymentType", b =>
-                {
-                    b.Navigation("EmploymentDetails");
-                });
-
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPersonalInfo", b =>
                 {
                     b.Navigation("EducationDetails");
 
-                    b.Navigation("EmploymentDetail")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPositionLevel", b =>
-                {
-                    b.Navigation("EmploymentDetails");
+                    b.Navigation("EmploymentDetail");
                 });
 #pragma warning restore 612, 618
         }

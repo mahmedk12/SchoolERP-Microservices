@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Staff.Application.Contracts.Persistance;
 using Staff.Application.Contracts.Persistance.Constant;
 using Staff.Application.Contracts.Persistance.Department;
 using Staff.Application.Contracts.Persistance.Staff;
 using Staff.Application.Exceptions;
+using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.Dtos;
-using Staff.Application.Reponse;
+using Staff.Application.Shared;
 using Staff.Domain.Entities.Constant;
+using Staff.Domain.Entities.Department;
 using Staff.Domain.Entities.Staff;
 using System.ComponentModel.DataAnnotations;
 
@@ -41,25 +44,27 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
             {
                 var degreelevel = await _degreeLevelRepository.GetByIdAsync(educationDetail.degreelevelId);
                 if (degreelevel == null)
-                        throw new CustomValidationException();
+                    throw new CustomNotFoundException(nameof(DegreeLevel), "Degree Not Exsist");
             }
           
             var departmentcategory = await _departmentcategoryRepository.GetByIdAsync(request.employmentDetail.departmentcategoryId);
             if (departmentcategory == null)
-                throw new NotFoundException(nameof(DegreeLevel),"Degree Not Found");
+                throw new CustomNotFoundException(nameof(DepartmentCategory), "Department Category Not Exsist");
+
 
             foreach (var departmentInfo in request.employmentDetail.departmentInfos)
             {
                 var department = await _departmentinfoRepository.GetByIdAsync(departmentInfo.departmentinfoId);
                 if (department == null)
-                    throw new ValidationException("Department Not Exsist");
+                    throw new CustomNotFoundException(nameof(DepartmentInfo), "Department Not Exsist");
             }
             var staffinfo = _mapper.Map<StaffPersonalInfo>(request);
 
             var newstaffinfo = await _staffrepository.AddAsync(staffinfo);
-            var staffDto = _mapper.Map<GetStaffDto>(newstaffinfo);
+            var staffDto=_mapper.Map<GetStaffDto>(newstaffinfo);
             var response = new ApiResponse<object>();
             response.Data = staffDto;
+            response.StatusCode = 200; 
             return response;
         }
     }

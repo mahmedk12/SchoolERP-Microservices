@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Staff.Application.Exceptions
 {
-     public class CustomValidationException : ApplicationException
+    public class CustomValidationException : ApplicationException
     {
         public CustomValidationException()
             : base("One or more validation failures have occurred.")
@@ -24,5 +25,7 @@ namespace Staff.Application.Exceptions
         }
 
         public IDictionary<string, string[]> Errors { get; }
+
     }
+
 }

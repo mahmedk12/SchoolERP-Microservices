@@ -12,10 +12,11 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
         public CreateStaffCommandValidator()
         {
             RuleFor(p => p.Name)
-                .NotEmpty().WithMessage("{Name} is required.");
+                .NotEmpty().WithMessage("Name is required.");
             
             RuleFor(p => p.email)
-               .NotEmpty().WithMessage("{EmailAddress} is required.");
+               .NotEmpty().WithMessage("EmailAddress is required.")
+               .EmailAddress().WithMessage("Please enter a valid email address.");
 
             RuleFor(p => p.Nic)
                .NotEmpty().WithMessage("CNIC Number is required.")
