@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CustomValidationException = Staff.Application.Exceptions.CustomValidationException;
 
 namespace Staff.Application.Behaviours
 {
