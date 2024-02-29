@@ -64,7 +64,8 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
             var staffDto=_mapper.Map<GetStaffDto>(newstaffinfo);
             var response = new ApiResponse<object>();
             response.Data = staffDto;
-            response.StatusCode = 200; 
+            response.StatusCode = 200;
+            response.Message = "Staff Successfully Added";
             return response;
         }
     }
