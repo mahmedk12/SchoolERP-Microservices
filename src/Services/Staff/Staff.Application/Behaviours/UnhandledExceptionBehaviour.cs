@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Staff.Application.Exceptions;
+using Staff.Application.Shared;
 using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;

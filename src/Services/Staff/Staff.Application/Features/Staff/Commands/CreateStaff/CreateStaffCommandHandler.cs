@@ -2,8 +2,13 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Staff.Application.Contracts.Persistance;
+using Staff.Application.Contracts.Persistance.Constant;
+using Staff.Application.Contracts.Persistance.Department;
+using Staff.Application.Contracts.Persistance.Staff;
 using Staff.Application.Exceptions;
 using Staff.Application.Features.Staff.Queries;
+using Staff.Application.Features.Staff.Queries.Dtos;
+using Staff.Application.Shared;
 using Staff.Domain.Common;
 using Staff.Domain.Entities;
 using Staff.Domain.Entities.Department;

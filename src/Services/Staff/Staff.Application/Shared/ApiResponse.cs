@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff.Domain.Common
+namespace Staff.Application.Shared
 {
     public class ApiResponse<T>
     {

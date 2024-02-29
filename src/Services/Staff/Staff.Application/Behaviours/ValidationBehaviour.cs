@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Staff.Application.Exceptions;
+using Staff.Application.Shared;
 using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;
