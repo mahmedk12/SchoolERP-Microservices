@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Staff.Domain.Entities;
+using Staff.Domain.Entities.Constant;
 using Staff.Domain.Entities.Department;
-using Staff.Domain.Entities.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;

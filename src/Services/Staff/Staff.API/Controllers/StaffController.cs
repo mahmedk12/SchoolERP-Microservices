@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
 using Staff.Application.Features.Staff.Queries;
+using Staff.Application.Features.Staff.Queries.Dtos;
 using Staff.Application.Features.Staff.Queries.GetSingleStaff;
+using Staff.Application.Reponse;
 using Staff.Domain.Entities.Staff;
 using System.Net;
 
@@ -20,7 +22,7 @@ namespace Staff.API.Controllers
         }
 
         [HttpPost(Name ="CreateStaff")]
-        [ProducesResponseType(typeof(GetStaffDto), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ApiResponse<GetStaffDto>), (int) HttpStatusCode.OK)]
         public async Task<ActionResult<StaffPersonalInfo>> CreateStaff([FromBody] CreateStaffCommand createStaffCommandDto)
         {
             var result = await _mediator.Send(createStaffCommandDto);

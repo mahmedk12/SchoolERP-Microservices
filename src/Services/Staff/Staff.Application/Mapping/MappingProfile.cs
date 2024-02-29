@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
 using Staff.Application.Features.Staff.Queries;
-using Staff.Domain.Entities;
+using Staff.Application.Features.Staff.Queries.Dtos;
+using Staff.Domain.Entities.Constant;
 using Staff.Domain.Entities.Department;
 using Staff.Domain.Entities.Junction;
 using Staff.Domain.Entities.Staff;
@@ -23,13 +24,15 @@ namespace Staff.Application.Mapping
                 CreateMap<StaffEmploymentStatus,GetStatusDto>().ReverseMap();   
                 CreateMap<StaffEmploymentType,GetTypeDto>().ReverseMap();
                 CreateMap<DepartmentCategory, GetDepartmentCategoryDto>().ReverseMap();
-                CreateMap<StaffEmploymentDetail, GetStaffEmploymentDetailDto>().ReverseMap();
-                CreateMap<EmploymentDetailDepartment, GetDepartmentInfoDto>()
-                  .ForMember(dest => dest.Id, opt => opt.MapFrom(source => source.DepartmentInfo.Id))
-                  .ForMember(dest => dest.Name, opt => opt.MapFrom(source => source.DepartmentInfo.Name))
-                  .ReverseMap();
-                  
-                
+                CreateMap<StaffEmploymentDetail, GetStaffEmploymentDetailDto>()
+                 .ForPath(dest => dest.DepartmentCategory, opt => opt.MapFrom(source => source.DepartmentCategory))
+                 .ForPath(dest => dest.DepartmentCategory.DepartmentInfos, opt => opt.MapFrom(source => source.DepartmentInfos.Select(x=>x.DepartmentInfo)))
+                 .ReverseMap();
+                CreateMap<DepartmentInfo, GetDepartmentInfoDto>().ReverseMap();
+               
+
+
+
         }
     }
 }
