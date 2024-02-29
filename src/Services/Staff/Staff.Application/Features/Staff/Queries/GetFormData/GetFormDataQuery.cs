@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Staff.Application.Features.Staff.Queries.Dtos;
-using Staff.Application.Reponse;
+using Staff.Application.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
+using Staff.Application.Exceptions;
+using Staff.Application.Shared;
+using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +12,8 @@ using System.Threading.Tasks;
 namespace Staff.Application.Behaviours
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-           where TRequest : MediatR.IRequest<TResponse> // <- this is the part you're missing
-
+            where TRequest : MediatR.IRequest<TResponse>
+            where TResponse : ApiResponse<object>, new()
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -29,7 +32,7 @@ namespace Staff.Application.Behaviours
                 var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
                 if (failures.Count != 0)
-                    throw new ValidationException(failures);
+                    throw new CustomValidationException(failures);
             }
 
             return await next();
