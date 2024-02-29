@@ -1,10 +1,14 @@
-﻿using MediatR;
+﻿using Azure;
+using Azure.Core;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
 using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.GetSingleStaff;
+using Staff.Domain.Common;
 using Staff.Domain.Entities.Staff;
 using System.Net;
+
 
 namespace Staff.API.Controllers
 {
@@ -19,12 +23,12 @@ namespace Staff.API.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpPost(Name ="CreateStaff")]
-        [ProducesResponseType(typeof(GetStaffDto), (int) HttpStatusCode.OK)]
+        [HttpPost(Name = "CreateStaff")]
+        [ProducesResponseType(typeof(ApiResponse<GetStaffDto>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<StaffPersonalInfo>> CreateStaff([FromBody] CreateStaffCommand createStaffCommandDto)
         {
-            var result = await _mediator.Send(createStaffCommandDto);
-            return Ok(result);
+            var response = await _mediator.Send(createStaffCommandDto);
+            return Ok(response);
         }
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(GetStaffDto), (int)HttpStatusCode.OK)]

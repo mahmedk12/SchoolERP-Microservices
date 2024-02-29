@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Staff.Application.Exceptions;
+using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,8 @@ using System.Threading.Tasks;
 namespace Staff.Application.Behaviours
 {
     public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-            where TRequest : MediatR.IRequest<TResponse> // <- this is the part you're missing
+            where TRequest : MediatR.IRequest<TResponse>
+            where TResponse : ApiResponse<object>, new()
 
     {
         private readonly ILogger<TRequest> _logger;
@@ -24,6 +27,24 @@ namespace Staff.Application.Behaviours
             try
             {
                 return await next();
+            }
+            catch (CustomValidationException ex)
+            {
+                return new TResponse()
+                {
+                    StatusCode = 400,
+                    ValidationErrors = ex.Errors,
+                    Data = null
+                };
+            }
+            catch (CustomNotFoundException n_ex)
+            {
+                return new TResponse()
+                {
+                    StatusCode = 400,
+                    Message = n_ex.Message,
+                    Data = null
+                };
             }
             catch (Exception ex)
             {
