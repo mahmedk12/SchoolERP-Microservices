@@ -1,15 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Staff.Application.Reponse;
+using ValidationException = Staff.Application.Exceptions.CustomValidationException;
 namespace Staff.Application.Behaviours
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-           where TRequest : MediatR.IRequest<TResponse> // <- this is the part you're missing
+            where TRequest : MediatR.IRequest<ApiResponse<object>>
+           // <- this is the part you're missing
 
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Staff.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,6 +72,35 @@ namespace Staff.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StaffInfos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StaffNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Nic = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Religion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PermanentAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResidentialAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PassportImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NicImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StaffInfos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StaffPositionLevel",
                 columns: table => new
                 {
@@ -109,112 +138,6 @@ namespace Staff.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StaffEmploymentDetail",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
-                    PositionLevelId = table.Column<int>(type: "int", nullable: false),
-                    TypeId = table.Column<int>(type: "int", nullable: false),
-                    EmployedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LeftAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DepartmentCategoryId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StaffEmploymentDetail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StaffEmploymentDetail_DepartmentCategory_DepartmentCategoryId",
-                        column: x => x.DepartmentCategoryId,
-                        principalTable: "DepartmentCategory",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StaffEmploymentDetail_StaffEmploymentStatus_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "StaffEmploymentStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StaffEmploymentDetail_StaffEmploymentType_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "StaffEmploymentType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StaffEmploymentDetail_StaffPositionLevel_PositionLevelId",
-                        column: x => x.PositionLevelId,
-                        principalTable: "StaffPositionLevel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StaffEmploymentDetialDepartment",
-                columns: table => new
-                {
-                    EmploymentDetialId = table.Column<int>(type: "int", nullable: false),
-                    DepartmentInfoId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StaffEmploymentDetialDepartment", x => new { x.DepartmentInfoId, x.EmploymentDetialId });
-                    table.ForeignKey(
-                        name: "FK_StaffEmploymentDetialDepartment_DepartmentInfo_DepartmentInfoId",
-                        column: x => x.DepartmentInfoId,
-                        principalTable: "DepartmentInfo",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StaffEmploymentDetialDepartment_StaffEmploymentDetail_EmploymentDetialId",
-                        column: x => x.EmploymentDetialId,
-                        principalTable: "StaffEmploymentDetail",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StaffInfos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StaffNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Nic = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Religion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PermanentAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ResidentialAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PassportImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NicImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmploymentDetailId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StaffInfos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StaffInfos_StaffEmploymentDetail_EmploymentDetailId",
-                        column: x => x.EmploymentDetailId,
-                        principalTable: "StaffEmploymentDetail",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StaffEducationDetails",
                 columns: table => new
                 {
@@ -240,6 +163,83 @@ namespace Staff.Infrastructure.Migrations
                         name: "FK_StaffEducationDetails_StaffInfos_StaffId",
                         column: x => x.StaffId,
                         principalTable: "StaffInfos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StaffEmploymentDetail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusId = table.Column<int>(type: "int", nullable: true),
+                    PositionLevelId = table.Column<int>(type: "int", nullable: true),
+                    TypeId = table.Column<int>(type: "int", nullable: true),
+                    EmployedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LeftAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DepartmentCategoryId = table.Column<int>(type: "int", nullable: false),
+                    StaffId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StaffEmploymentDetail", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetail_DepartmentCategory_DepartmentCategoryId",
+                        column: x => x.DepartmentCategoryId,
+                        principalTable: "DepartmentCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetail_StaffEmploymentStatus_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "StaffEmploymentStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetail_StaffEmploymentType_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "StaffEmploymentType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetail_StaffInfos_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "StaffInfos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetail_StaffPositionLevel_PositionLevelId",
+                        column: x => x.PositionLevelId,
+                        principalTable: "StaffPositionLevel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StaffEmploymentDetialDepartment",
+                columns: table => new
+                {
+                    EmploymentDetialId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentInfoId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StaffEmploymentDetialDepartment", x => new { x.DepartmentInfoId, x.EmploymentDetialId });
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetialDepartment_DepartmentInfo_DepartmentInfoId",
+                        column: x => x.DepartmentInfoId,
+                        principalTable: "DepartmentInfo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_StaffEmploymentDetialDepartment_StaffEmploymentDetail_EmploymentDetialId",
+                        column: x => x.EmploymentDetialId,
+                        principalTable: "StaffEmploymentDetail",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -270,6 +270,12 @@ namespace Staff.Infrastructure.Migrations
                 column: "PositionLevelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StaffEmploymentDetail_StaffId",
+                table: "StaffEmploymentDetail",
+                column: "StaffId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StaffEmploymentDetail_StatusId",
                 table: "StaffEmploymentDetail",
                 column: "StatusId");
@@ -283,12 +289,6 @@ namespace Staff.Infrastructure.Migrations
                 name: "IX_StaffEmploymentDetialDepartment_EmploymentDetialId",
                 table: "StaffEmploymentDetialDepartment",
                 column: "EmploymentDetialId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StaffInfos_EmploymentDetailId",
-                table: "StaffInfos",
-                column: "EmploymentDetailId",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -304,9 +304,6 @@ namespace Staff.Infrastructure.Migrations
                 name: "DegreeLevel");
 
             migrationBuilder.DropTable(
-                name: "StaffInfos");
-
-            migrationBuilder.DropTable(
                 name: "DepartmentInfo");
 
             migrationBuilder.DropTable(
@@ -320,6 +317,9 @@ namespace Staff.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "StaffEmploymentType");
+
+            migrationBuilder.DropTable(
+                name: "StaffInfos");
 
             migrationBuilder.DropTable(
                 name: "StaffPositionLevel");

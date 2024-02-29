@@ -12,8 +12,8 @@ using Staff.Infrastructure.Persistence;
 namespace Staff.Infrastructure.Migrations
 {
     [DbContext(typeof(StaffDbContext))]
-    [Migration("20240223143224_initialmigration")]
-    partial class initialmigration
+    [Migration("20240226113805_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,13 +182,16 @@ namespace Staff.Infrastructure.Migrations
                     b.Property<DateTime?>("LeftAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PositionLevelId")
+                    b.Property<int?>("PositionLevelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StaffId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int?>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -196,6 +199,9 @@ namespace Staff.Infrastructure.Migrations
                     b.HasIndex("DepartmentCategoryId");
 
                     b.HasIndex("PositionLevelId");
+
+                    b.HasIndex("StaffId")
+                        .IsUnique();
 
                     b.HasIndex("StatusId");
 
@@ -276,9 +282,6 @@ namespace Staff.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmploymentDetailId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -328,9 +331,6 @@ namespace Staff.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmploymentDetailId")
-                        .IsUnique();
-
                     b.ToTable("StaffInfos");
                 });
 
@@ -373,13 +373,13 @@ namespace Staff.Infrastructure.Migrations
                     b.HasOne("Staff.Domain.Entities.Department.DepartmentInfo", "DepartmentInfo")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("DepartmentInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Staff.Domain.Entities.Staff.StaffEmploymentDetail", "EmploymentDetail")
                         .WithMany("DepartmentInfos")
                         .HasForeignKey("EmploymentDetialId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("DepartmentInfo");
@@ -417,39 +417,33 @@ namespace Staff.Infrastructure.Migrations
                     b.HasOne("Staff.Domain.Entities.Staff.StaffPositionLevel", "PositionLevel")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("PositionLevelId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Staff.Domain.Entities.Staff.StaffPersonalInfo", "StaffInfo")
+                        .WithOne("EmploymentDetail")
+                        .HasForeignKey("Staff.Domain.Entities.Staff.StaffEmploymentDetail", "StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Staff.Domain.Entities.Staff.StaffEmploymentStatus", "Status")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Staff.Domain.Entities.Staff.StaffEmploymentType", "Type")
                         .WithMany("EmploymentDetails")
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("DepartmentCategory");
 
                     b.Navigation("PositionLevel");
 
+                    b.Navigation("StaffInfo");
+
                     b.Navigation("Status");
 
                     b.Navigation("Type");
-                });
-
-            modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPersonalInfo", b =>
-                {
-                    b.HasOne("Staff.Domain.Entities.Staff.StaffEmploymentDetail", "EmploymentDetail")
-                        .WithOne("StaffInfo")
-                        .HasForeignKey("Staff.Domain.Entities.Staff.StaffPersonalInfo", "EmploymentDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EmploymentDetail");
                 });
 
             modelBuilder.Entity("Staff.Domain.Entities.DegreeLevel", b =>
@@ -472,9 +466,6 @@ namespace Staff.Infrastructure.Migrations
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEmploymentDetail", b =>
                 {
                     b.Navigation("DepartmentInfos");
-
-                    b.Navigation("StaffInfo")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffEmploymentStatus", b =>
@@ -490,6 +481,9 @@ namespace Staff.Infrastructure.Migrations
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPersonalInfo", b =>
                 {
                     b.Navigation("EducationDetails");
+
+                    b.Navigation("EmploymentDetail")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Staff.Domain.Entities.Staff.StaffPositionLevel", b =>

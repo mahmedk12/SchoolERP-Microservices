@@ -1,9 +1,10 @@
 ﻿using MediatR;
-using Staff.Application.Features.Staff.Queries;
+using Staff.Application.Features.Staff.Queries.Dtos;
+using Staff.Application.Reponse;
 
 namespace Staff.Application.Features.Staff.Commands.CreateStaff
 {
-    public class CreateStaffCommand : IRequest<GetStaffDto>
+    public class CreateStaffCommand : IRequest<ApiResponse<object>>
     {
         public string StaffNo { get; set; }
         public string Name { get; set; }
