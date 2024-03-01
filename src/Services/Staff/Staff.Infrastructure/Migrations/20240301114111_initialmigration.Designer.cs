@@ -12,8 +12,8 @@ using Staff.Infrastructure.Persistence;
 namespace Staff.Infrastructure.Migrations
 {
     [DbContext(typeof(StaffDbContext))]
-    [Migration("20240229140007_initial")]
-    partial class initial
+    [Migration("20240301114111_initialmigration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -200,7 +200,6 @@ namespace Staff.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CertificateImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -242,7 +241,7 @@ namespace Staff.Infrastructure.Migrations
                     b.Property<int>("DepartmentCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EmployedAt")
+                    b.Property<DateTime>("EmployedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LastModifiedDate")
@@ -288,11 +287,9 @@ namespace Staff.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Area")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -329,23 +326,18 @@ namespace Staff.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NicImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PassportImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PermanentAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Religion")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResidentialAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StaffNo")

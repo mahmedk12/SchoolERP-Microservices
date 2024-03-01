@@ -17,7 +17,7 @@ namespace Staff.Domain.Entities.Staff
         public int Id { get; set; }
         public string PreviousInstituteName { get; set; }
 
-        public string CertificateImage { get; set; }
+        public string? CertificateImage { get; set; }
         public int StaffId { get; set; }
         public int DegreeLevelId { get; set; }
         public StaffPersonalInfo Staff { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Staff.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,15 +83,15 @@ namespace Staff.Infrastructure.Migrations
                     Nic = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Nationality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Religion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PermanentAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ResidentialAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Religion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PermanentAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResidentialAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Area = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PassportImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NicImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PassportImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NicImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -144,7 +144,7 @@ namespace Staff.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PreviousInstituteName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CertificateImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CertificateImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StaffId = table.Column<int>(type: "int", nullable: false),
                     DegreeLevelId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -176,7 +176,7 @@ namespace Staff.Infrastructure.Migrations
                     StatusId = table.Column<int>(type: "int", nullable: true),
                     PositionLevelId = table.Column<int>(type: "int", nullable: true),
                     TypeId = table.Column<int>(type: "int", nullable: true),
-                    EmployedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EmployedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LeftAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DepartmentCategoryId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false),

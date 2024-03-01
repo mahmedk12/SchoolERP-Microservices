@@ -2,14 +2,16 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Staff.Application.Contracts.Persistance.Staff;
+using Staff.Application.Exceptions;
 using Staff.Application.Features.Staff.Queries.Dtos;
+using Staff.Application.Shared;
 using Staff.Domain.Entities.Junction;
 using Staff.Domain.Entities.Staff;
 using System.Linq.Expressions;
 
 namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 {
-    public class GetSingleStaffQueryHandler : IRequestHandler<GetSingleStaffQuery,GetStaffDto>
+    public class GetSingleStaffQueryHandler : IRequestHandler<GetSingleStaffQuery, ApiResponse<object>>
     {
         private readonly IStaffRepository _staffRepository;
         private readonly ILogger<GetSingleStaffQueryHandler> _logger;
@@ -24,7 +26,7 @@ namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 
         
 
-        public async Task<GetStaffDto> Handle(GetSingleStaffQuery request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<object>> Handle(GetSingleStaffQuery request, CancellationToken cancellationToken)
         {
             List<Expression<Func<StaffPersonalInfo, object>>> expressions =
                 new List<Expression<Func<StaffPersonalInfo, object>>>();
@@ -44,12 +46,19 @@ namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 
 
             // Define the orderBy function to order the results by some criteria, for example, order by OrderId
-            Func<IQueryable<StaffPersonalInfo>, IOrderedQueryable<StaffPersonalInfo>> orderByFunction = query => query.OrderBy(o => o.CreatedDate);
+            //Func<IQueryable<StaffPersonalInfo>, IOrderedQueryable<StaffPersonalInfo>> orderByFunction = query => query.OrderBy(o => o.CreatedDate);
 
-            var staffInfos = await _staffRepository.GetAsync(x => x.Id == request.Id, orderByFunction, expressions); 
-            var StaffInfo=staffInfos.FirstOrDefault();
-            var staffDto = _mapper.Map<GetStaffDto>(StaffInfo);
-            return staffDto;
+            var staffInfo = await _staffRepository.GetByIdAsync(o=>o.Id==request.Id, expressions);
+            if (staffInfo==null)
+            {
+                throw new CustomNotFoundException(nameof(StaffPersonalInfo), "Staff Not Exsist");
+            }
+            var staffDto = _mapper.Map<GetStaffDto>(staffInfo);
+            var response = new ApiResponse<object>();
+            response.Data = staffDto;
+            response.StatusCode = 200;
+            response.Message = "Staff Detail Succussfully Retrieved";
+            return response;
         }
     }
 }

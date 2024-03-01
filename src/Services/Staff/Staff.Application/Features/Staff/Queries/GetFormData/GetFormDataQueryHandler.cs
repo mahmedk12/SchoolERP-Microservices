@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Staff.Application.Features.Staff.Queries.GetFormData
 {
-    public class GetFormDataQueryHandler : IRequestHandler<GetFormDataQuery, ApiResponse<GetFormDataDto>>
+    public class GetFormDataQueryHandler : IRequestHandler<GetFormDataQuery, ApiResponse<object>>
     {
 
         private readonly IEmploymentStatusRepository _employmentStatusRepository;
@@ -40,7 +40,7 @@ namespace Staff.Application.Features.Staff.Queries.GetFormData
             _mapper=mapper;
         }
 
-        public async Task<ApiResponse<GetFormDataDto>> Handle(GetFormDataQuery request, CancellationToken cancellationToken)
+        public async Task<ApiResponse<object>> Handle(GetFormDataQuery request, CancellationToken cancellationToken)
         {
             var degreelevels = await _degreeLevelRepository.GetAllAsync();
             var types=await _employmentTypeRepository.GetAllAsync();
@@ -55,8 +55,10 @@ namespace Staff.Application.Features.Staff.Queries.GetFormData
             formdataDto.commonValues.statuses= _mapper.Map<List<GetStatusDto>>(statuses);
             formdataDto.commonValues.types= _mapper.Map<List<GetTypeDto>>(types);
             formdataDto.commonValues.departmentCategories= _mapper.Map<List<GetDepartmentCategoryDto>>(departmentcategories);
-            var response = new ApiResponse<GetFormDataDto>();
+            var response = new ApiResponse<object>();
             response.Data = formdataDto;
+            response.StatusCode = 200;
+            response.Message = "Staff Form Related Data Succussfully Retrieved";
             return response;
 
         }
