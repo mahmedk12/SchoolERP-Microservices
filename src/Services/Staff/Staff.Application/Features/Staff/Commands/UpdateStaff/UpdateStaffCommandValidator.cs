@@ -1,16 +1,26 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.Logging;
 using Staff.Application.Contracts.Persistance.Constant;
 using Staff.Application.Contracts.Persistance.Department;
-using Staff.Application.Features.Staff.Commands.UpdateStaff;
+using Staff.Application.Contracts.Persistance.Staff;
+using Staff.Application.Exceptions;
+using Staff.Application.Features.Staff.Commands.CreateStaff;
+using Staff.Application.Features.Staff.Queries.Dtos;
+using Staff.Application.Shared;
+using Staff.Domain.Entities.Constant;
+using Staff.Domain.Entities.Department;
+using Staff.Domain.Entities.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff.Application.Features.Staff.Commands.CreateStaff
+namespace Staff.Application.Features.Staff.Commands.UpdateStaff
 {
-    public class CreateStaffCommandValidator : AbstractValidator<CreateStaffCommand>
+    public class UpdateStaffCommandValidator : AbstractValidator<UpdateStaffCommand>
     {
         private readonly IDegreeLevelRepository _degreeLevelRepository;
         private readonly IDepartmentCategoryRepository _departmentCategoryRepository;
@@ -19,7 +29,7 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
         private readonly IEmploymentTypeRepository _employeeTypeRepository;
         private readonly IDepartmentInfoRepository _departmentInfoRepository;
 
-        public CreateStaffCommandValidator(
+        public UpdateStaffCommandValidator(
             IDegreeLevelRepository degreeLevelRepository,
             IDepartmentCategoryRepository departmentCategoryRepository,
             IPositionLevelRepository positionLevelRepository,

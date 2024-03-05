@@ -27,6 +27,7 @@ namespace Staff.Application.Behaviours
             {
                 return new TResponse()
                 {
+                    Message = ex.Message,
                     StatusCode = 400,
                     ValidationErrors = ex.Errors,
                     Data = null

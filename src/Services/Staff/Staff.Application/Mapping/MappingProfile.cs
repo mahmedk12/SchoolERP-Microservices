@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
+using Staff.Application.Features.Staff.Commands.UpdateStaff;
 using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.Dtos;
 using Staff.Domain.Entities.Constant;
@@ -29,10 +30,11 @@ namespace Staff.Application.Mapping
                  .ForPath(dest => dest.DepartmentCategory.DepartmentInfos, opt => opt.MapFrom(source => source.DepartmentInfos.Select(x=>x.DepartmentInfo)))
                  .ReverseMap();
                 CreateMap<DepartmentInfo, GetDepartmentInfoDto>().ReverseMap();
-               
-
-
-
+            
+                CreateMap<StaffPersonalInfo, UpdateStaffCommand>().ReverseMap();
+                CreateMap<StaffEducationDetail, UpdateStaffEducationDetailDto>().ReverseMap();
+                CreateMap<StaffEmploymentDetail, UpdateEmploymentDetailDto>().ReverseMap();
+                CreateMap<EmploymentDetailDepartment, UpdateStaffEmploymentDetailDepartmentInfoDto>().ReverseMap();
         }
     }
 }

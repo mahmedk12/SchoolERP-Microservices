@@ -4,6 +4,7 @@ using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
+using Staff.Application.Features.Staff.Commands.UpdateStaff;
 using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.Dtos;
 using Staff.Application.Features.Staff.Queries.GetSingleStaff;
@@ -18,7 +19,7 @@ namespace Staff.API.Controllers.v1
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [SwaggerTag("This is <b>Staff Module Api Controller</b>")]
     public class StaffController : ControllerBase
     {
@@ -60,6 +61,24 @@ namespace Staff.API.Controllers.v1
         {
 
             var result = await _mediator.Send(new GetSingleStaffQuery(id));
+            return StatusCode(result.StatusCode, result);
+        }
+
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Staff Successfully Updated", Type = typeof(ApiResponse<GetStaffDto>))]
+        [SwaggerResponse((int)HttpStatusCode.Unauthorized, Description = "User is not authorized to access this url", Type = typeof(ApiResponse<>))]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Some required field is not found", Type = typeof(ApiResponse<>))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, Description = "Server has failed to read or execute data", Type = typeof(ApiResponse<>))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Request is Invalid", Type = typeof(ApiResponse<>))]
+        [Produces("application/json", "application/xml")]
+        [Consumes("application/json", "application/xml")]
+        [SwaggerOperation(
+           Summary = "Update Staff",
+           Description = "This function takes staff personinfo, employment details and education details and update and return staff info")]
+        [HttpPut(Name = "UpdateStaff")]
+        [ProducesResponseType(typeof(GetStaffDto), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> UpdateStaff([FromBody] UpdateStaffCommand updateStaffCommandDto)
+        {
+            var result = await _mediator.Send(updateStaffCommandDto);
             return StatusCode(result.StatusCode, result);
         }
     }
