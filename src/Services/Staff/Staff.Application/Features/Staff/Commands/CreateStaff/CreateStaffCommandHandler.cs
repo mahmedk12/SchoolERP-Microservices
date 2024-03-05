@@ -13,6 +13,7 @@ using Staff.Domain.Entities.Constant;
 using Staff.Domain.Entities.Department;
 using Staff.Domain.Entities.Staff;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 
 namespace Staff.Application.Features.Staff.Commands.CreateStaff
 {
@@ -39,25 +40,32 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
         }
         public async Task<ApiResponse<object>> Handle(CreateStaffCommand request, CancellationToken cancellationToken)
         {
+            if (request.educationDetails!=null)
+            {
+                foreach (var educationDetail in request.educationDetails)
+                {
+                    var degreelevel = await _degreeLevelRepository.GetByIdAsync(educationDetail.degreelevelId);
+                    if (degreelevel == null)
+                        throw new CustomNotFoundException(nameof(DegreeLevel), "Degree Not Exsist");
+                   
+                }
+            }
+            if (request.employmentDetail!=null)
+            {
+                var departmentcategory = await _departmentcategoryRepository.GetByIdAsync(o=>o.Id==request.employmentDetail.departmentcategoryId,
+                    new List<Expression<Func<DepartmentCategory, object>>>() {o=>o.DepartmentInfos});
+                if (departmentcategory == null)
+                    throw new CustomNotFoundException(nameof(DepartmentCategory), "Department Category Not Exsist");
+
+                foreach (var departmentInfo in request.employmentDetail.departmentInfos)
+                {
+                    var department = departmentcategory.DepartmentInfos.Where(x=>x.Id==departmentInfo.departmentinfoId).FirstOrDefault();
+                    if (department == null)
+                        throw new CustomNotFoundException(nameof(DepartmentInfo), "Department Not Exsist");
+                }
+            }
+
            
-            foreach (var educationDetail in request.educationDetails)
-            {
-                var degreelevel = await _degreeLevelRepository.GetByIdAsync(educationDetail.degreelevelId);
-                if (degreelevel == null)
-                    throw new CustomNotFoundException(nameof(DegreeLevel), "Degree Not Exsist");
-            }
-          
-            var departmentcategory = await _departmentcategoryRepository.GetByIdAsync(request.employmentDetail.departmentcategoryId);
-            if (departmentcategory == null)
-                throw new CustomNotFoundException(nameof(DepartmentCategory), "Department Category Not Exsist");
-
-
-            foreach (var departmentInfo in request.employmentDetail.departmentInfos)
-            {
-                var department = await _departmentinfoRepository.GetByIdAsync(departmentInfo.departmentinfoId);
-                if (department == null)
-                    throw new CustomNotFoundException(nameof(DepartmentInfo), "Department Not Exsist");
-            }
             var staffinfo = _mapper.Map<StaffPersonalInfo>(request);
 
             var newstaffinfo = await _staffrepository.AddAsync(staffinfo);

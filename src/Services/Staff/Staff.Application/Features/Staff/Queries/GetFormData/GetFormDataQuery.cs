@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Staff.Application.Features.Staff.Queries.GetFormData
 {
-    public class GetFormDataQuery:IRequest<ApiResponse<GetFormDataDto>>
+    public class GetFormDataQuery:IRequest<ApiResponse<object>>
     {
       
     }

@@ -21,6 +21,7 @@ namespace Staff.Application.Contracts.Persistance.Generic
                                        List<Expression<Func<T, object>>> includes = null,
                                        bool disableTracking = true);
         Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate = null, List<Expression<Func<T, object>>> includes = null);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);

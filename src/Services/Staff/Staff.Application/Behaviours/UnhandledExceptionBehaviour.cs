@@ -2,13 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Staff.Application.Exceptions;
 using Staff.Application.Shared;
-using Staff.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomValidationException = Staff.Application.Exceptions.CustomValidationException;
 
 namespace Staff.Application.Behaviours
 {
@@ -43,7 +36,7 @@ namespace Staff.Application.Behaviours
             {
                 return new TResponse()
                 {
-                    StatusCode = 400,
+                    StatusCode = 404,
                     Message = n_ex.Message,
                     Data = null
                 };
@@ -52,7 +45,12 @@ namespace Staff.Application.Behaviours
             {
                 var requestName = typeof(TRequest).Name;
                 _logger.LogError(ex, "Application Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
-                throw;
+                return new TResponse()
+                {
+                    StatusCode = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
             }
         }
     }
