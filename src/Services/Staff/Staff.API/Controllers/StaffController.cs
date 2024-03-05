@@ -3,6 +3,7 @@ using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
+using Staff.Application.Features.Staff.Commands.UpdateStaff;
 using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.Dtos;
 using Staff.Application.Features.Staff.Queries.GetSingleStaff;
@@ -36,9 +37,16 @@ namespace Staff.API.Controllers
         [ProducesResponseType(typeof(GetStaffDto), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<GetStaffDto>> GetStaff(int id)
         {
-
             var result = await _mediator.Send(new GetSingleStaffQuery(id));
             return Ok(result);
+        }
+
+        [HttpPut(Name = "UpdateStaff")]
+        [ProducesResponseType(typeof(GetStaffDto), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> UpdateStaff([FromBody] UpdateStaffCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
         }
     }
 }
