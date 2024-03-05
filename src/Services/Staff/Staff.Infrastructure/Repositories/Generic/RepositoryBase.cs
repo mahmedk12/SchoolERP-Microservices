@@ -84,5 +84,18 @@ namespace Staff.Infrastructure.Repositories.Generic
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate = null,
+           List<Expression<Func<T, object>>> includes = null)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+            if (predicate != null) query = query.Where(predicate);
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.FirstOrDefaultAsync();
+
+        }
     }
 }
