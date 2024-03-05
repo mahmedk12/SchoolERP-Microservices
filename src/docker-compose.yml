@@ -10,5 +10,5 @@ services:
       context: .
       dockerfile: Services/Staff/Staff.API/Dockerfile
 
-volumes:
-  sql_data:
+
+

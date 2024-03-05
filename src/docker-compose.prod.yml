@@ -2,35 +2,35 @@ version: '3.4'
 
 services:
   staffdb:
-    container_name: dev_staffdb
+    container_name: staffdb
     environment:
       - MSSQL_SA_PASSWORD=Karachi@1234
       - ACCEPT_EULA=Y
       - MSSQL_PID=Express
     restart: always
     ports:
-      - 1434:1433 
+      - 1435:1433 
     networks:
-      -  dev_src
+      - src
     volumes:
       - sql_data:/var/opt/mssql 
 
   staff.api:
-    container_name: dev_staffapi
+    container_name: staffapi
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - "ConnectionStrings:StaffConnectionString=Server=staffdb;Database=StaffDb;User Id=sa;Password=Karachi@1234;TrustServerCertificate=true;"
     depends_on:
       - staffdb
     ports:
-      - "8000:8080"
+      - "7000:8080"
     networks:
-      -  dev_src
+      - src
 
 networks:
-  dev_src:
+  src:
     driver: bridge
-    name: dev_src
+    name: src
 volumes:
-   sql_data:
+  sql_data:

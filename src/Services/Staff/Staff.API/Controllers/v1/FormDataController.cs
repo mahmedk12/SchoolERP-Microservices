@@ -14,7 +14,7 @@ namespace Staff.API.Controllers.v1
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [SwaggerTag("This is <b>Staff UI Form Related Data</b>")]
     public class FormDataController : ControllerBase
     {

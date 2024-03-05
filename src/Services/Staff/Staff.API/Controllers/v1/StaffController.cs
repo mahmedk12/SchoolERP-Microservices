@@ -18,7 +18,7 @@ namespace Staff.API.Controllers.v1
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]/[action]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [SwaggerTag("This is <b>Staff Module Api Controller</b>")]
     public class StaffController : ControllerBase
     {
