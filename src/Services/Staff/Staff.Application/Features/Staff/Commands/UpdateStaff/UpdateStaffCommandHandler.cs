@@ -51,12 +51,33 @@ namespace Staff.Application.Features.Staff.Commands.UpdateStaff
 
         var staffInfos = await _staffRepository.GetAsync(x => x.Id == request.Id, orderByFunction, expressions, false);
         var StaffInfo = staffInfos.FirstOrDefault();
-            
-        var updated_staffInfo = _mapper.Map(request, StaffInfo);
 
-        await _staffRepository.UpdateAsync(updated_staffInfo);
-           
-        var staffDto = _mapper.Map<GetStaffDto>(updated_staffInfo);
+        var staffInfoProperties = typeof(StaffPersonalInfo).GetProperties();
+
+        foreach (var property in typeof(UpdateStaffCommand).GetProperties())
+        {
+            var propertyName = char.ToUpper(property.Name[0]) + property.Name.Substring(1);
+            var propertyValue = property.GetValue(request);
+                
+            var staffInfoProperty = staffInfoProperties.FirstOrDefault(p => p.Name == propertyName);
+
+            if (propertyName == "EducationDetails" && propertyValue != null)
+            {
+                var educationDetails = (List<UpdateStaffEducationDetailDto>)propertyValue;
+                var staffEducationDetails = educationDetails.Select(dto => _mapper.Map<StaffEducationDetail>(dto)).ToList();
+                propertyValue = staffEducationDetails;
+            }
+            propertyValue = propertyName == "EmploymentDetail" ? _mapper.Map<StaffEmploymentDetail>(request.employmentDetail) : propertyValue;
+                
+            if (staffInfoProperty != null && propertyValue != null)
+            {
+                staffInfoProperty.SetValue(StaffInfo, propertyValue);
+            }
+        }
+
+        await _staffRepository.UpdateAsync(StaffInfo);
+  
+        var staffDto = _mapper.Map<GetStaffDto>(StaffInfo);
         var response = new ApiResponse<object>();
         response.Data = staffDto;
         response.StatusCode = 200;
