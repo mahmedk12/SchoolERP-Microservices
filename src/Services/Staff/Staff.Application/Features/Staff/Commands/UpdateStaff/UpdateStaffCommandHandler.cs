@@ -56,12 +56,17 @@ namespace Staff.Application.Features.Staff.Commands.UpdateStaff
 
         foreach (var property in typeof(UpdateStaffCommand).GetProperties())
         {
-            var propertyName = char.ToUpper(property.Name[0]) + property.Name.Substring(1); ;
+            var propertyName = char.ToUpper(property.Name[0]) + property.Name.Substring(1);
             var propertyValue = property.GetValue(request);
                 
             var staffInfoProperty = staffInfoProperties.FirstOrDefault(p => p.Name == propertyName);
 
-            propertyValue = propertyName == "EducationDetails" ? ((List<UpdateStaffEducationDetailDto>)propertyValue).Select(dto => _mapper.Map<StaffEducationDetail>(dto)).ToList() : propertyValue;
+            if (propertyName == "EducationDetails" && propertyValue != null)
+            {
+                var educationDetails = (List<UpdateStaffEducationDetailDto>)propertyValue;
+                var staffEducationDetails = educationDetails.Select(dto => _mapper.Map<StaffEducationDetail>(dto)).ToList();
+                propertyValue = staffEducationDetails;
+            }
             propertyValue = propertyName == "EmploymentDetail" ? _mapper.Map<StaffEmploymentDetail>(request.employmentDetail) : propertyValue;
                 
             if (staffInfoProperty != null && propertyValue != null)
