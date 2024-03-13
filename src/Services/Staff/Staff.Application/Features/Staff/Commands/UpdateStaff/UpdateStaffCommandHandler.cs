@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Staff.Application.Contracts.Infrastructure.Helper;
 using Staff.Application.Contracts.Persistance.Constant;
 using Staff.Application.Contracts.Persistance.Department;
 using Staff.Application.Contracts.Persistance.Staff;
@@ -26,43 +27,65 @@ namespace Staff.Application.Features.Staff.Commands.UpdateStaff
     {
         private readonly IStaffRepository _staffRepository;
         private readonly IMapper _mapper;
+        private readonly IImageHelper _imageHelper;
 
 
-        public UpdateStaffCommandHandler(IStaffRepository staffRepository, IMapper mapper)
+        public UpdateStaffCommandHandler(IStaffRepository staffRepository, IMapper mapper, IImageHelper imageHelper)
         {
             _staffRepository = staffRepository;
             _mapper = mapper;
+            _imageHelper = imageHelper;
         }
 
-    public async Task<ApiResponse<object>> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)
-    {
-        List<Expression<Func<StaffPersonalInfo, object>>> expressions = new List<Expression<Func<StaffPersonalInfo, object>>>();
+        public async Task<ApiResponse<object>> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)
+        {
+            //List<Expression<Func<StaffPersonalInfo, object>>> expressions = new List<Expression<Func<StaffPersonalInfo, object>>>();
 
-        expressions.Add(t => t.EducationDetails);
-        expressions.Add(t => (t.EducationDetails as StaffEducationDetail).DegreeLevel);
-        expressions.Add(t => t.EmploymentDetail);
-        expressions.Add(t => t.EmploymentDetail.PositionLevel);
-        expressions.Add(t => t.EmploymentDetail.Type);
-        expressions.Add(t => t.EmploymentDetail.Status);
-        expressions.Add(t => t.EmploymentDetail.DepartmentCategory);
-        expressions.Add(t => (t.EmploymentDetail.DepartmentInfos as EmploymentDetailDepartment).DepartmentInfo);
-
-        Func<IQueryable<StaffPersonalInfo>, IOrderedQueryable<StaffPersonalInfo>> orderByFunction = query => query.OrderBy(o => o.CreatedDate);
-
-        var staffInfos = await _staffRepository.GetAsync(x => x.Id == request.Id, orderByFunction, expressions, false);
-        var StaffInfo = staffInfos.FirstOrDefault();
-            
-        var updated_staffInfo = _mapper.Map(request, StaffInfo);
-
-        await _staffRepository.UpdateAsync(updated_staffInfo);
            
-        var staffDto = _mapper.Map<GetStaffDto>(updated_staffInfo);
-        var response = new ApiResponse<object>();
-        response.Data = staffDto;
-        response.StatusCode = 200;
-        response.Message = "Staff Successfully Updated";
-        return response;
-    }
+
+            var StaffInfo = await _staffRepository.GetStaffInfoById(request.Id);
+
+            if (StaffInfo==null)
+            {
+                throw new CustomNotFoundException(nameof(StaffInfo),"Staff Not Notfound");
+            }
+
+
+            var imageGuidId = Guid.NewGuid().ToString();           
+            request.StaffDto.nicImage = 
+            await _imageHelper.UpdateImage(StaffInfo.NicImage,request.StaffDto?.nicImageFile, nameof(StaffPersonalInfo), imageGuidId);
+             
+            request.StaffDto.passportImage = 
+                await _imageHelper.UpdateImage(StaffInfo.PassportImage,request.StaffDto?.passportImageFile, nameof(StaffPersonalInfo), imageGuidId);
+          
+            if (request.StaffDto?.educationDetails!=null)
+            {
+                foreach (var educationDetailDto in request.StaffDto.educationDetails)
+                {
+                    var staffeducationDetail = StaffInfo?.EducationDetails?.FirstOrDefault(x => x.Id == educationDetailDto.Id);
+                    if (staffeducationDetail==null)
+                    {
+                        throw new CustomNotFoundException(nameof(staffeducationDetail), "Staff Detail Not Found");
+                    }
+                    educationDetailDto.certificateImage = 
+                    await _imageHelper.UpdateImage(staffeducationDetail.CertificateImage,educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);                      
+
+                   
+                }
+            }
+
+            
+
+            _mapper.Map(request.StaffDto, StaffInfo);
+            await _staffRepository.UpdateAsync(StaffInfo);
+           
+            var staffDto = _mapper.Map<GetStaffDto>(StaffInfo);
+            var response = new ApiResponse<object>();
+            response.Data = staffDto;
+            response.StatusCode = 200;
+            response.Message = "Staff Successfully Updated";
+            return response;
+        }
 
     }
 }

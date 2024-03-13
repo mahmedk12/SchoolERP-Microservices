@@ -28,17 +28,17 @@ namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
 
         public async Task<ApiResponse<object>> Handle(GetSingleStaffQuery request, CancellationToken cancellationToken)
         {
-            List<Expression<Func<StaffPersonalInfo, object>>> expressions =
-                new List<Expression<Func<StaffPersonalInfo, object>>>();
-            expressions.Add(t => (t.EducationDetails as StaffEducationDetail).DegreeLevel);
-            expressions.Add(t => t.EmploymentDetail);
-            expressions.Add(t =>t.EmploymentDetail.PositionLevel);
-            expressions.Add(t =>t.EmploymentDetail.Type);
-            expressions.Add(t =>t.EmploymentDetail.Status);
-            expressions.Add(t =>t.EmploymentDetail.DepartmentCategory);
-           // expressions.Add(t => t.EmploymentDetail.DepartmentCategory.DepartmentInfos);
-            expressions.Add(t =>(t.EmploymentDetail.DepartmentInfos as EmploymentDetailDepartment).DepartmentInfo);
-            // Define the include expressions to eagerly load related entities like products
+           // List<Expression<Func<StaffPersonalInfo, object>>> expressions =
+           //     new List<Expression<Func<StaffPersonalInfo, object>>>();
+           // expressions.Add(t => (t.EducationDetails as StaffEducationDetail).DegreeLevel);
+           // expressions.Add(t => t.EmploymentDetail);
+           // expressions.Add(t =>t.EmploymentDetail.PositionLevel);
+           // expressions.Add(t =>t.EmploymentDetail.Type);
+           // expressions.Add(t =>t.EmploymentDetail.Status);
+           // expressions.Add(t =>t.EmploymentDetail.DepartmentCategory);
+           //// expressions.Add(t => t.EmploymentDetail.DepartmentCategory.DepartmentInfos);
+           // expressions.Add(t =>(t.EmploymentDetail.DepartmentInfos as EmploymentDetailDepartment).DepartmentInfo);
+           // // Define the include expressions to eagerly load related entities like products
 
 
 
@@ -48,7 +48,7 @@ namespace Staff.Application.Features.Staff.Queries.GetSingleStaff
             // Define the orderBy function to order the results by some criteria, for example, order by OrderId
             //Func<IQueryable<StaffPersonalInfo>, IOrderedQueryable<StaffPersonalInfo>> orderByFunction = query => query.OrderBy(o => o.CreatedDate);
 
-            var staffInfo = await _staffRepository.GetByIdAsync(o=>o.Id==request.Id, expressions);
+            var staffInfo = await _staffRepository.GetStaffInfoById(request.Id);
             if (staffInfo==null)
             {
                 throw new CustomNotFoundException(nameof(StaffPersonalInfo), "Staff Not Exsist");
