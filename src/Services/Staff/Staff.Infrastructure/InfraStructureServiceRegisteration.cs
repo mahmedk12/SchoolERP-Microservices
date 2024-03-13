@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Staff.Application.Contracts.Infrastructure.Helper;
 using Staff.Application.Contracts.Persistance.Constant;
 using Staff.Application.Contracts.Persistance.Department;
 using Staff.Application.Contracts.Persistance.Generic;
 using Staff.Application.Contracts.Persistance.Staff;
+using Staff.Infrastructure.Helper;
 using Staff.Infrastructure.Persistence;
 using Staff.Infrastructure.Repositories.Constant;
 using Staff.Infrastructure.Repositories.Department;
@@ -32,6 +34,11 @@ namespace Staff.Infrastructure
             services.AddScoped<IPositionLevelRepository,PositionLevelRepository >();
             services.AddScoped<IEmploymentTypeRepository,EmploymentTypeRepository >();
             services.AddScoped<IEmploymentStatusRepository,EmploymentStatusRepository >();
+
+
+
+            //Helper Registeration
+            services.AddScoped<IImageHelper, ImageHelper>();
             return services;
         }
     }
