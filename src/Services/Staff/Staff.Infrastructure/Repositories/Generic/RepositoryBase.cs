@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
 using Staff.Application.Contracts.Persistance.Generic;
 using Staff.Domain.Common;
 using Staff.Infrastructure.Persistence;
@@ -96,6 +97,11 @@ namespace Staff.Infrastructure.Repositories.Generic
             }
             return await query.FirstOrDefaultAsync();
 
+        }
+
+        public async Task<IDbContextTransaction> BeginTransaction()
+        {
+            return await _dbContext.Database.BeginTransactionAsync();
         }
     }
 }

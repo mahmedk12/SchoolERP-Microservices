@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Staff.Application.Contracts.Persistance.Constant;
 using Staff.Application.Contracts.Persistance.Department;
+using Staff.Application.Features.Staff.Commands.Dtos;
 using Staff.Application.Features.Staff.Commands.UpdateStaff;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Staff.Application.Features.Staff.Commands.CreateStaff
 {
-    public class CreateStaffCommandValidator : AbstractValidator<CreateStaffCommand>
+    public class CreateStaffCommandValidator : AbstractValidator<CreateStaffDto>
     {
         private readonly IDegreeLevelRepository _degreeLevelRepository;
         private readonly IDepartmentCategoryRepository _departmentCategoryRepository;

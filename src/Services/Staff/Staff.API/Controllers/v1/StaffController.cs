@@ -4,6 +4,7 @@ using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Staff.Application.Features.Staff.Commands.CreateStaff;
+using Staff.Application.Features.Staff.Commands.Dtos;
 using Staff.Application.Features.Staff.Commands.UpdateStaff;
 using Staff.Application.Features.Staff.Queries;
 using Staff.Application.Features.Staff.Queries.Dtos;
@@ -35,15 +36,14 @@ namespace Staff.API.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Some required field is not found", Type = typeof(ApiResponse<>))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, Description = "Server has failed to read or execute data", Type = typeof(ApiResponse<>))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Request is Invalid", Type = typeof(ApiResponse<>))]
-        [Produces("application/json", "application/xml")]
-        [Consumes("application/json", "application/xml")]
         [SwaggerOperation(
            Summary = "Create Staff",
            Description = "This function takes staff personinfo, employment details and education details and create and return staff info")]
         [HttpPost(Name = "CreateStaff")]
-        public async Task<ActionResult<StaffPersonalInfo>> CreateStaff([FromBody] CreateStaffCommand createStaffCommandDto)
+        public async Task<ActionResult<StaffPersonalInfo>> CreateStaff([FromForm] CreateStaffDto createStaffDto)
         {
-            var result = await _mediator.Send(createStaffCommandDto);
+            var command=new CreateStaffCommand() { StaffDto= createStaffDto };
+            var result = await _mediator.Send(command);
             return StatusCode(result.StatusCode, result);
         }
 
@@ -69,16 +69,15 @@ namespace Staff.API.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Some required field is not found", Type = typeof(ApiResponse<>))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, Description = "Server has failed to read or execute data", Type = typeof(ApiResponse<>))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Request is Invalid", Type = typeof(ApiResponse<>))]
-        [Produces("application/json", "application/xml")]
-        [Consumes("application/json", "application/xml")]
         [SwaggerOperation(
            Summary = "Update Staff",
            Description = "This function takes staff personinfo, employment details and education details and update and return staff info")]
-        [HttpPut(Name = "UpdateStaff")]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(typeof(GetStaffDto), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> UpdateStaff([FromBody] UpdateStaffCommand updateStaffCommandDto)
+        public async Task<ActionResult> UpdateStaff(int id,[FromForm] UpdateStaffDto updateStaffDto)
         {
-            var result = await _mediator.Send(updateStaffCommandDto);
+            var command = new UpdateStaffCommand() { Id=id,StaffDto = updateStaffDto };
+            var result = await _mediator.Send(command);
             return StatusCode(result.StatusCode, result);
         }
     }

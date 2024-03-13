@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
 using Staff.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,7 @@ namespace Staff.Application.Contracts.Persistance.Generic
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
+
+        Task<IDbContextTransaction> BeginTransaction();
     }
 }

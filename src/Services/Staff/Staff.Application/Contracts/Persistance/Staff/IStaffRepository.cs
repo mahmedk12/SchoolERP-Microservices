@@ -4,5 +4,6 @@ namespace Staff.Application.Contracts.Persistance.Staff
 {
     public interface IStaffRepository : IAsyncRepository<StaffPersonalInfo>
     {
+        public Task<StaffPersonalInfo> GetStaffInfoById(int id,bool includeAll=true);
     }
 }
