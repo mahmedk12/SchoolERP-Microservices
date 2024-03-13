@@ -29,21 +29,25 @@ namespace Staff.Infrastructure.Helper
             }
         }
 
-        public async Task<string> UploadImage(IFormFile imageFile, string subFolder, string id)
+        public async Task<string?> UploadImage(IFormFile? imageFile, string subFolder, string id)
         {
-            var uploadFolder = Path.Join(rootFolder, subFolder);
-            if (!Directory.Exists(uploadFolder))
-                Directory.CreateDirectory(uploadFolder);
+            if (imageFile!=null)
+            {              
+                var uploadFolder = Path.Join(rootFolder, subFolder);
+                if (!Directory.Exists(uploadFolder))
+                    Directory.CreateDirectory(uploadFolder);
 
-            var uniqueFileName = id + "_" + imageFile.FileName;
-            var filePath = Path.Combine(uploadFolder, uniqueFileName);
+                var uniqueFileName = id + "_" + imageFile.FileName;
+                var filePath = Path.Combine(uploadFolder, uniqueFileName);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(fileStream);
+                }
+
+                return $"/{subFolder}/{uniqueFileName}";
             }
-
-            return $"/{subFolder}/{uniqueFileName}";
+            return null;
         }
 
         public async Task<string?> UpdateImage(string? oldimageUrl, IFormFile? imageFile, string subFolder, string id)

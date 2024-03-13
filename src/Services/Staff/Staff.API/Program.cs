@@ -127,4 +127,5 @@ app.MigrateDatabase<StaffDbContext>((context, services) =>
     var logger = services.GetService<ILogger<StaffDbContextSeed>>();
     StaffDbContextSeed.SeedAsync(context,logger).Wait();
 });
+app.UseCors();
 app.Run();

@@ -13,7 +13,7 @@ services:
     networks:
       -  dev_src
     volumes:
-      - sql_data:/var/opt/mssql 
+      - sql_data:/var/opt/mssql
 
   staff.api:
     container_name: dev_staffapi
@@ -27,6 +27,8 @@ services:
       - "8000:8080"
     networks:
       -  dev_src
+    volumes:
+      - C:\Users\DELL\source\repos\School-MicroServices-Images:/app/wwwroot/Images 
 
 networks:
   dev_src:
