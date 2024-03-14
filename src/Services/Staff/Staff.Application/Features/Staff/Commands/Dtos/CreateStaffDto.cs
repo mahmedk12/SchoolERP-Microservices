@@ -40,9 +40,9 @@ namespace Staff.Application.Features.Staff.Commands.Dtos
     }
     public class CreateEmploymentDetailDto
     {
-        public int statusId { get; set; }
-        public int positionLevelId { get; set; }
-        public int typeId { get; set; }
+        public int? statusId { get; set; }
+        public int? positionLevelId { get; set; }
+        public int? typeId { get; set; }
         public DateTime employedAt { get; set; }
         public DateTime? leftAt { get; set; }
         public int departmentcategoryId { get; set; }
