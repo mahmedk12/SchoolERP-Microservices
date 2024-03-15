@@ -37,10 +37,13 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
             if (request.StaffDto?.passportImageFile != null)
                 request.StaffDto.passportImage = await _imageHelper.UploadImage(request.StaffDto.passportImageFile, nameof(StaffPersonalInfo), imageGuidId);
 
-            foreach (var educationDetail in request.StaffDto.educationDetails)
+            if (request.StaffDto?.educationDetails != null)
             {
-                if (educationDetail.certificateImageFile!=null)
-                    educationDetail.certificateImage= await _imageHelper.UploadImage(educationDetail.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);
+                foreach (var educationDetail in request.StaffDto.educationDetails)
+                {
+                    if (educationDetail.certificateImageFile != null)
+                        educationDetail.certificateImage = await _imageHelper.UploadImage(educationDetail.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);
+                }
             }
             var staffinfo = _mapper.Map<StaffPersonalInfo>(request.StaffDto);
             var newstaffinfo = await _staffrepository.AddAsync(staffinfo);

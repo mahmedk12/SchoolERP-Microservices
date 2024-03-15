@@ -40,17 +40,11 @@ namespace Staff.Application.Features.Staff.Commands.UpdateStaff
         public async Task<ApiResponse<object>> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)
         {
             //List<Expression<Func<StaffPersonalInfo, object>>> expressions = new List<Expression<Func<StaffPersonalInfo, object>>>();
-
-           
-
             var StaffInfo = await _staffRepository.GetStaffInfoById(request.Id);
 
             if (StaffInfo==null)
-            {
                 throw new CustomNotFoundException(nameof(StaffInfo),"Staff Not Notfound");
-            }
-
-
+            
             var imageGuidId = Guid.NewGuid().ToString();           
             request.StaffDto.nicImage = 
             await _imageHelper.UpdateImage(StaffInfo.NicImage,request.StaffDto?.nicImageFile, nameof(StaffPersonalInfo), imageGuidId);
@@ -63,23 +57,14 @@ namespace Staff.Application.Features.Staff.Commands.UpdateStaff
                 foreach (var educationDetailDto in request.StaffDto.educationDetails)
                 {
                     var staffeducationDetail = StaffInfo?.EducationDetails?.FirstOrDefault(x => x.Id == educationDetailDto.Id);
-                    if (staffeducationDetail!=null)
+                    if (staffeducationDetail==null)
                     {
-                        educationDetailDto.certificateImage = 
-                        await _imageHelper.UpdateImage(staffeducationDetail.CertificateImage,educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);                      
-                        
+                        throw new CustomNotFoundException(nameof(staffeducationDetail), "Staff Detail Not Found");
                     }
-                    else
-                    {
-                        educationDetailDto.certificateImage =
-                        await _imageHelper.UploadImage(educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);
-                    }
-
-
+                    educationDetailDto.certificateImage = 
+                    await _imageHelper.UpdateImage(staffeducationDetail.CertificateImage,educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);                      
                 }
             }
-
-            
 
             _mapper.Map(request.StaffDto, StaffInfo);
             await _staffRepository.UpdateAsync(StaffInfo);
