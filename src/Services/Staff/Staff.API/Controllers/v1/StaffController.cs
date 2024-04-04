@@ -63,7 +63,22 @@ namespace Staff.API.Controllers.v1
             var result = await _mediator.Send(new GetSingleStaffQuery(id));
             return StatusCode(result.StatusCode, result);
         }
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Staff Data Succuessfully Retrived", Type = typeof(ApiResponse<GetStaffDto>))]
+        [SwaggerResponse((int)HttpStatusCode.Unauthorized, Description = "User is not authorized to access this url", Type = typeof(ApiResponse<>))]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Some required field is not found", Type = typeof(ApiResponse<>))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, Description = "Server has failed to read or execute data", Type = typeof(ApiResponse<>))]
+        [Produces("application/json", "application/xml")]
+        [Consumes("application/json", "application/xml")]
+        [SwaggerOperation(
+           Summary = "Get All Staff Details",
+           Description = "This function returns list of staff details")]
+        [HttpGet]
+        public async Task<ActionResult<ApiResponse<GetStaffDto>>> GetAllStaff()
+        {
 
+            var result = await _mediator.Send(new GetAllStaffQuery());
+            return StatusCode(result.StatusCode, result);
+        }
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Staff Successfully Updated", Type = typeof(ApiResponse<GetStaffDto>))]
         [SwaggerResponse((int)HttpStatusCode.Unauthorized, Description = "User is not authorized to access this url", Type = typeof(ApiResponse<>))]
         [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Some required field is not found", Type = typeof(ApiResponse<>))]

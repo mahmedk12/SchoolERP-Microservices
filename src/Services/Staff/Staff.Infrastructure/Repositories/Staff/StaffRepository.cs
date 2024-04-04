@@ -40,5 +40,24 @@ namespace Staff.Infrastructure.Repositories.Staff
             }
             return await query.FirstOrDefaultAsync();
         }
+        public async Task<List<StaffPersonalInfo>> GetStaffInfo(bool includeAll = true)
+        {
+            IQueryable<StaffPersonalInfo> query = _dbContext.Set<StaffPersonalInfo>();
+            if (includeAll)
+            {
+                query = query
+                    .Include(x => x.EmploymentDetail)
+                    .Include(x => x.EmploymentDetail.PositionLevel)
+                    .Include(x => x.EmploymentDetail.Type)
+                    .Include(x => x.EmploymentDetail.Status)
+                    .Include(x => x.EmploymentDetail.DepartmentCategory)
+                    .Include(x => x.EmploymentDetail.DepartmentInfos)
+                        .ThenInclude(y => y.DepartmentInfo)
+                    .Include(x => x.EducationDetails)
+                        .ThenInclude(y => y.DegreeLevel)
+                     .AsQueryable();
+            }
+            return await query.ToListAsync();
+        }
     }
 }
