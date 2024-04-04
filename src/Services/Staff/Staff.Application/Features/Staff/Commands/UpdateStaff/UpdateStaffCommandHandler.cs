@@ -57,12 +57,20 @@ namespace Staff.Application.Features.Staff.Commands.UpdateStaff
                 foreach (var educationDetailDto in request.StaffDto.educationDetails)
                 {
                     var staffeducationDetail = StaffInfo?.EducationDetails?.FirstOrDefault(x => x.Id == educationDetailDto.Id);
-                    if (staffeducationDetail==null)
+                    if (staffeducationDetail!=null)
                     {
-                        throw new CustomNotFoundException(nameof(staffeducationDetail), "Staff Detail Not Found");
+                        educationDetailDto.certificateImage = 
+                        await _imageHelper.UpdateImage(staffeducationDetail.CertificateImage,educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);                      
+                        
                     }
-                    educationDetailDto.certificateImage = 
-                    await _imageHelper.UpdateImage(staffeducationDetail.CertificateImage,educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);                      
+                    else
+                    {
+                        educationDetailDto.certificateImage = 
+                        await _imageHelper.UploadImage(educationDetailDto?.certificateImageFile, nameof(StaffEducationDetail), imageGuidId);                      
+                        
+                    }
+
+                   
                 }
             }
 

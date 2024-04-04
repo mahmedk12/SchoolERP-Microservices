@@ -36,7 +36,9 @@ namespace Staff.Application.Features.Staff.Commands.CreateStaff
             _departmentInfoRepository = departmentInfoRepository;
 
             //FLUENT VALIDATION
-            
+            RuleFor(p => p.StaffDto.StaffNo)
+                .NotEmpty().WithMessage("Staff No is required.");
+
             RuleFor(p => p.StaffDto.Name)
                 .NotEmpty().WithMessage("Name is required.");
 
